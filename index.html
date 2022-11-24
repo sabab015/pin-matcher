@@ -21,9 +21,9 @@
             </div>
             <div class="col-md-6">
                 <div class="input-section half-width">
-                    <input class="form-control" type="text">
+                    <input id="display-pin" class="form-control" type="text">
                     <div class="numbers">
-                        <div class="calc-body">
+                        <div id="calculator" class="calc-body">
                             <div class="calc-button-row">
                                 <div class="button">7</div>
                                 <div class="button">8</div>
@@ -59,7 +59,7 @@
         </div>
 
         <script>
-            
+
             //generate button handler
             const generateBtn = document.getElementById("generate-btn");
             generateBtn.addEventListener("click", function () {
@@ -70,7 +70,12 @@
                 formArea.style.fontSize = "18px";
             })
 
-
+            document.getElementById("calculator").addEventListener("click", function(event){
+                const number = event.target.innerText;
+                const displayPin = document.getElementById("display-pin");
+                displayPin.value = number;
+            })
+            
         </script>
 
 
