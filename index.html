@@ -45,7 +45,7 @@
                                 <div class="button">C</div>
                             </div>
                             <div>
-                                <button type="submit" class="submit-btn">Submit</button>
+                                <button id="verify-pin" type="submit" class="submit-btn">Submit</button>
                                 <p class="action-left">3 try left</p>
                             </div>
                         </div>
@@ -53,8 +53,8 @@
                 </div>
             </div>
             <div class="notify-section">
-                <p class="notify">❌ Pin Didn't Match, Please try again</p>
-                <p class="notify">✅ Pin Matched... Secret door is opening for you</p>
+                <p id="pin-failure" class="notify">❌ Pin Didn't Match, Please try again</p>
+                <p id="pin-success" class="notify">✅ Pin Matched... Secret door is opening for you</p>
             </div>
         </div>
 
@@ -70,12 +70,47 @@
                 formArea.style.fontSize = "18px";
             })
 
-            document.getElementById("calculator").addEventListener("click", function(event){
+            //calculator handler
+            document.getElementById("calculator").addEventListener("click", function (event) {
                 const number = event.target.innerText;
                 const displayPin = document.getElementById("display-pin");
-                displayPin.value = number;
+                const previousTypedNumber = displayPin.value;
+
+                if (isNaN(number)) {
+                    if (number === 'C') {
+                        displayPin.value = "";
+                    } else if (number === '<') {
+                        const digits = previousTypedNumber.split('');
+                        digits.pop();
+                        const remainingDigits = digits.join('');
+                        displayPin.value = remainingDigits;
+                    }
+                }
+                else {
+                    const newTypedNumber = displayPin.value + number;
+                    displayPin.value = newTypedNumber;
+                }
             })
-            
+
+            document.getElementById("verify-pin").addEventListener("click", function () {
+                const displayPinField = document.getElementById("form-area");
+                const currentPin = displayPinField.value;
+
+                const typedNumberField = document.getElementById("display-pin");
+                const typedNumber = typedNumberField.value;
+
+                const pinSuccessMessage = document.getElementById("pin-success");
+                const pinFailureMessage = document.getElementById("pin-failure");
+
+                if (typedNumber === currentPin) {
+                    pinSuccessMessage.style.display = 'block';
+                    pinFailureMessage.style.display = 'none';
+                }
+                else {
+                    pinFailureMessage.style.display = 'block';
+                    pinSuccessMessage.style.display = 'none';
+                }
+            })
         </script>
 
 
